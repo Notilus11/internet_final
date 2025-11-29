@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🔄 Unit Converter</h1>
+            <a href="../main_index.html" class="back-btn">← Back to Menu</a>
+        </header>
+
+        <div class="converter-container">
+            <div class="category-selector">
+                <button class="category-btn active" data-category="length">Length</button>
+                <button class="category-btn" data-category="weight">Weight</button>
+                <button class="category-btn" data-category="temperature">Temperature</button>
+                <button class="category-btn" data-category="volume">Volume</button>
+                <button class="category-btn" data-category="time">Time</button>
+            </div>
+
+            <div class="converter-box">
+                <div class="input-group">
+                    <label for="from-value">From:</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="from-value" placeholder="Enter value" step="any">
+                        <select id="from-unit"></select>
+                    </div>
+                </div>
+
+                <div class="swap-button-container">
+                    <button id="swap-btn" class="swap-btn">⇄</button>
+                </div>
+
+                <div class="input-group">
+                    <label for="to-value">To:</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="to-value" placeholder="Result" readonly>
+                        <select id="to-unit"></select>
+                    </div>
+                </div>
+
+                <div class="formula-display">
+                    <p id="formula"></p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>Quick Reference</h3>
+                <div id="quick-reference"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

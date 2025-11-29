@@ -1,0 +1,1 @@
+i want to make a website that is a menu to different little projects, all in html/css/js, first i'd like that you make the menu, a minesweeper game and a unit converter, accessible from said menu. could you get started on that ?
