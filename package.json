@@ -1,0 +1,12 @@
+{
+  "name": "combined-projects",
+  "version": "1.0.0",
+  "description": "A combined website with Minesweeper, Unit Converter, and Chat",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ws": "^8.16.0"
+  }
+}

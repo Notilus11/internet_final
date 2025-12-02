@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chat Application</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-white h-screen flex flex-col">
+    <!-- Header with Back Button -->
+    <div class="bg-blue-600 h-8 flex items-center justify-between px-4">
+        <a href="../main_index.html" class="text-white hover:text-gray-200 font-medium text-sm transition-colors">
+            ← Back to Menu
+        </a>
+        <span class="text-white text-lg font-semibold">ChatRoom</span>
+        <div style="width: 100px;"></div> <!-- Spacer to keep title centered -->
+    </div>
+
+    <!-- Username Input Overlay -->
+    <div
+      id="username-overlay"
+      class="fixed inset-x-0 top-8 bottom-8 bg-white z-50 flex items-center justify-center"
+    >
+      <div class="bg-white p-8 rounded-xl shadow-2xl w-96 text-center">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800">
+          Choose Your Username
+        </h2>
+        <input
+          type="text"
+          id="username-input"
+          placeholder="Enter your username"
+          class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+        />
+        <button
+          id="username-submit"
+          class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300"
+        >
+          Join others
+        </button>
+      </div>
+    </div>
+
+    <!-- Room Selection -->
+    <div id="room-selection" class="container mx-auto px-4 py-8 hidden">
+      <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">
+        Choose or create a chat room!
+      </h1>
+      <div id="room-list" class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+        <!-- Dynamic rooms added here -->
+      </div>
+
+      <div class="flex space-x-2">
+        <input
+          type="text"
+          id="new-room-name"
+          placeholder="Create a new room..."
+          class="flex-grow px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          id="create-room"
+          class="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300"
+        >
+          Create Room
+        </button>
+      </div>
+    </div>
+
+    <!-- User List -->
+    <div id="userListContainer" class="container mx-auto px-4 py-4 hidden">
+      <h3 class="text-xl font-bold text-gray-800 mb-4">Current Users</h3>
+      <ul id="userList" class="space-y-2">
+        <!-- Users added here -->
+      </ul>
+    </div>
+
+    <!-- Main Chat Container -->
+    <div
+      id="container"
+      class="container mx-auto flex-grow flex flex-col px-4 py-8 hidden"
+    >
+      <div class="flex justify-between items-center mb-4">
+        <button
+          id="back-button"
+          class="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-300"
+        >
+          Back to Rooms
+        </button>
+        <h1
+          id="room-name"
+          class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300"
+        >
+          Chat Application
+        </h1>
+      </div>
+
+      <div
+        id="chat-box"
+        class="flex-grow bg-white border rounded-lg p-4 mb-4 space-y-3 min-h-[500px] max-h-[500px] flex flex-col overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-blue-100 [&::-webkit-scrollbar-thumb]:bg-blue-500 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-blue-600"
+      >
+        <!-- Messages added here -->
+      </div>
+
+      <div class="flex space-x-2">
+        <input
+          type="text"
+          id="message-input"
+          placeholder="Type your message..."
+          class="flex-grow px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          id="send-button"
+          class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300"
+        >
+          Send
+        </button>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="bg-blue-600 h-8 mt-auto"></div>
+    <script src="functions.js"></script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+body {
+  background-color: white;
+}
+
+.bg-blue-600 {
+  background-color: #2563eb; 
+}
+
+.h-8 {
+  height: 4cm;
+}
+
+.scrollbar {
+  --tw-scrollbar-width: 2px;
+  --tw-scrollbar-track: #ebf5ff; 
+  --tw-scrollbar-thumb: #3b82f6; 
+  --tw-scrollbar-thumb-hover: #2563eb; 
+}
+.scrollbar::-webkit-scrollbar {
+  width: var(--tw-scrollbar-width);
+}
+.scrollbar::-webkit-scrollbar-track {
+  background: var(--tw-scrollbar-track);
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  background: var(--tw-scrollbar-thumb);
+  border-radius: 0.5rem;
+}
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--tw-scrollbar-thumb-hover);
+}

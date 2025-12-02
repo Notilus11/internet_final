@@ -1,0 +1,16 @@
+{
+  "rooms": [
+    "test"
+  ],
+  "chatHistory": {
+    "test": [
+      {
+        "type": "message",
+        "username": "janis",
+        "text": "janis",
+        "time": "2025-12-02T07:01:15.459Z",
+        "room": "test"
+      }
+    ]
+  }
+}
