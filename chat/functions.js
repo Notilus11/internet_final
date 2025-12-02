@@ -12,14 +12,18 @@ const roomList = document.getElementById("room-list");
 const roomSelection = document.getElementById("room-selection");
 const chatContainer = document.getElementById("container");
 const chatBox = document.getElementById("chat-box");
-const roomName = document.getElementById("room-name");
+const roomNameLabel = document.getElementById("room-name");
 const userList = document.getElementById("userList");
-const userListContainer = document.getElementById("userListContainer");
 const backButton = document.getElementById("back-button");
 const sendButton = document.getElementById("send-button");
 const newRoom = document.getElementById("create-room");
 const newRoomNameInput = document.getElementById("new-room-name");
 const messageInput = document.getElementById("message-input");
+
+// Focus input on load
+window.onload = () => {
+    usernameInput.focus();
+};
 
 // User sets username via button
 usernameSubmit.addEventListener("click", () => {
@@ -57,12 +61,13 @@ ws.onopen = () => {
 
 ws.onmessage = function (event) {
   const msg = JSON.parse(event.data);
-  console.log("Received message:", msg);
+  // console.log("Received message:", msg);
   if (msg.type === "user-list") {
     updateUserList(msg.users);
   } else if (msg.type === "message") {
     addMessage(msg.data);
   } else if (msg.type === "history") {
+    chatBox.innerHTML = ''; // Clear chat box before loading history
     msg.data.forEach(addMessage);
   } else if (msg.type === "new-room") {
     addRoomButton(msg.room);
@@ -71,31 +76,44 @@ ws.onmessage = function (event) {
 
 ws.onclose = () => {
   console.log("Disconnected from the server");
+  // Optional: Disable inputs if disconnected
 };
 
 function createNewUser() {
-  username = usernameInput.value.trim() || "Anonymous";
+  const inputVal = usernameInput.value.trim();
+  if (!inputVal) return;
+  
+  username = inputVal;
   usernameOverlay.style.display = "none";
 
   ws.send(JSON.stringify({ type: "new-user", username }));
-  roomSelection.style.display = "block";
+  roomSelection.classList.remove("hidden");
 }
 
 function addRoomButton(roomNameVar) {
+  // Check if button already exists to prevent duplicates
+  const existingBtns = document.querySelectorAll('.room-btn');
+  for(let btn of existingBtns) {
+      if(btn.textContent === roomNameVar) return;
+  }
+
   const roomButton = document.createElement("button");
   roomButton.textContent = roomNameVar;
-  roomButton.className =
-    "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300";
+  // UPDATED: Using CSS class 'room-btn' instead of Tailwind
+  roomButton.className = "room-btn";
   roomButton.addEventListener("click", () => joinRoom(roomNameVar));
   roomList.appendChild(roomButton);
 }
 
 function joinRoom(room) {
   currentRoom = room;
-  roomSelection.style.display = "none";
-  chatContainer.style.display = "block";
-  userListContainer.style.display = "block";
-  roomName.textContent = `Room: ${room}`;
+  
+  // Toggle views
+  roomSelection.classList.add("hidden");
+  chatContainer.classList.remove("hidden");
+  
+  roomNameLabel.textContent = `Room: ${room}`;
+  messageInput.focus();
 
   ws.send(JSON.stringify({ type: "join-room", room }));
 }
@@ -105,16 +123,19 @@ function createRoom() {
   if (newRoomName !== "") {
     ws.send(JSON.stringify({ type: "create-room", room: newRoomName }));
     newRoomNameInput.value = "";
+    // Auto join created room? For now just create it.
   }
 }
 
 function leaveRoom() {
   ws.send(JSON.stringify({ type: "leave-room", room: currentRoom }));
   currentRoom = null;
-  chatContainer.style.display = "none";
-  roomSelection.style.display = "block";
-  userListContainer.style.display = "none";
+  
+  chatContainer.classList.add("hidden");
+  roomSelection.classList.remove("hidden");
+  
   chatBox.innerHTML = "";
+  userList.innerHTML = "";
 }
 
 function sendMessage() {
@@ -134,77 +155,58 @@ function sendMessage() {
 
 function addMessage(msg) {
   const messageElement = document.createElement("div");
-
   const isCurrentUser = msg.username === username;
-  messageElement.className = `flex ${
-    isCurrentUser ? "justify-end" : "justify-start"
-  } p-3 border-b border-gray-300`; 
+  
+  // UPDATED: Semantic Classes 'message', 'self'/'other'
+  messageElement.className = `message ${isCurrentUser ? "self" : "other"}`;
 
-  const messageContent = document.createElement("div");
-  messageContent.className =
-    "flex flex-col max-w-[45%] min-w-[20%] p-2 break-words";
+  const headerDiv = document.createElement("div");
+  headerDiv.className = "msg-header";
 
-  const messageHeader = document.createElement("strong");
-  messageHeader.className = "text-sm font-semibold"; 
-  messageHeader.textContent = msg.username;
+  const authorSpan = document.createElement("span");
+  authorSpan.className = "msg-author";
+  authorSpan.textContent = isCurrentUser ? "You" : msg.username;
 
-  const messageText = document.createElement("span");
-  messageText.className = "text-base mt-1 break-words";
-  messageText.textContent = msg.text;
+  const timeSpan = document.createElement("span");
+  timeSpan.className = "msg-time";
+  timeSpan.textContent = formatTimestamp(msg.time);
 
-  const messageTime = document.createElement("span");
-  messageTime.className = "text-xs italic mt-2 self-end";
-  messageTime.textContent = formatTimestamp(msg.time);
+  headerDiv.appendChild(authorSpan);
+  headerDiv.appendChild(timeSpan);
 
-  messageContent.appendChild(messageHeader);
-  messageContent.appendChild(messageText);
-  messageContent.appendChild(messageTime);
+  const textDiv = document.createElement("div");
+  textDiv.className = "msg-text";
+  textDiv.textContent = msg.text;
 
-  if (isCurrentUser) {
-    messageContent.className += " bg-blue-500 text-white rounded-lg";
-    messageHeader.className += " text-white";
-    messageText.className += " text-white";
-    messageTime.className += " text-white";
-  } else {
-    messageContent.className += " bg-gray-200 text-black rounded-lg"; 
-    messageHeader.className += " text-gray-700";
-    messageText.className += " text-gray-800";
-    messageTime.className += " text-gray-500";
-  }
+  messageElement.appendChild(headerDiv);
+  messageElement.appendChild(textDiv);
 
-  messageElement.appendChild(messageContent);
   chatBox.appendChild(messageElement);
+  
+  // Scroll to bottom
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 function formatTimestamp(timestamp) {
   const date = new Date(timestamp);
-  const options = {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-  };
-  return date.toLocaleString(undefined, options).replace(',', '');
+  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
 function updateUserList(users) {
   userList.innerHTML = "";
   users.forEach((user) => {
     const userItem = document.createElement("li");
-    userItem.className = "flex items-center space-x-4 p-2 bg-white border rounded-lg shadow-sm";
+    userItem.className = "user-item";
+    
     const userIcon = document.createElement("div");
-    userIcon.className = "w-10 h-10 bg-blue-600 text-white flex items-center justify-center rounded-full";
-    const userInitial = document.createElement("span");
-    userInitial.className = "font-bold";
-    userInitial.textContent = user.charAt(0).toUpperCase();
-    userIcon.appendChild(userInitial);
-    const userName = document.createElement("span");
-    userName.className = "text-gray-800 font-medium";
-    userName.textContent = user;
+    userIcon.className = "user-avatar";
+    userIcon.textContent = user.charAt(0).toUpperCase();
+    
+    const userNameSpan = document.createElement("span");
+    userNameSpan.textContent = user;
+    
     userItem.appendChild(userIcon);
-    userItem.appendChild(userName);
+    userItem.appendChild(userNameSpan);
     userList.appendChild(userItem);
   });
 }

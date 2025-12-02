@@ -1,6 +1,7 @@
 {
   "rooms": [
-    "test"
+    "test",
+    "bombe"
   ],
   "chatHistory": {
     "test": [

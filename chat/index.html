@@ -1,123 +1,87 @@
 <!DOCTYPE html>
-<html lang="de">
-  <head>
+<html lang="en">
+<head>
     <meta charset="UTF-8" />
-    <title>Chat Application</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <!-- Link to the new custom CSS -->
     <link rel="stylesheet" href="style.css" />
-  </head>
-  <body class="bg-white h-screen flex flex-col">
-    <!-- Header with Back Button -->
-    <div class="bg-blue-600 h-8 flex items-center justify-between px-4">
-        <a href="../main_index.html" class="text-white hover:text-gray-200 font-medium text-sm transition-colors">
-            ← Back to Menu
-        </a>
-        <span class="text-white text-lg font-semibold">ChatRoom</span>
-        <div style="width: 100px;"></div> <!-- Spacer to keep title centered -->
+</head>
+<body>
+
+    <!-- Header similar to Minesweeper/Unit Converter -->
+    <header>
+        <a href="../main_index.html" class="back-btn">← Back to Menu</a>
+        <h1>💬 Global Chat</h1>
+        <div class="header-spacer"></div> <!-- Spacer to keep title centered -->
+    </header>
+
+    <div class="container">
+        
+        <!-- Username Input Overlay -->
+        <div id="username-overlay">
+            <div class="modal-content">
+                <h2>Welcome!</h2>
+                <p style="margin-bottom: 15px; color: #666;">Please choose a username to join.</p>
+                <div class="input-group" style="flex-direction: column;">
+                    <input type="text" id="username-input" placeholder="Username" maxlength="15" />
+                    <button id="username-submit" class="btn">Join Chat</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Room Selection View -->
+        <div id="room-selection" class="card">
+            <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Join a Room</h2>
+            
+            <div id="room-list">
+                <!-- Dynamic rooms added here by JS -->
+            </div>
+
+            <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+                <h3 style="margin-bottom: 10px; font-size: 1.1rem; color: #555;">Or Create New Room</h3>
+                <div class="input-group">
+                    <input type="text" id="new-room-name" placeholder="Enter room name..." />
+                    <button id="create-room" class="btn">Create & Join</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Chat View -->
+        <div id="container" class="card hidden">
+            <div class="chat-layout">
+                
+                <!-- Sidebar: User List -->
+                <aside class="sidebar" id="userListContainer">
+                    <h3>Active Users</h3>
+                    <ul id="userList">
+                        <!-- Users added here by JS -->
+                    </ul>
+                </aside>
+
+                <!-- Main Chat Area -->
+                <main class="chat-main">
+                    <div class="chat-header">
+                        <span id="room-name" class="room-badge">Room: Lobby</span>
+                        <button id="back-button" class="btn btn-secondary" style="padding: 8px 15px; font-size: 0.9rem;">Leave Room</button>
+                    </div>
+
+                    <div id="chat-box">
+                        <!-- Messages added here by JS -->
+                    </div>
+
+                    <div class="chat-input-area">
+                        <div class="input-group">
+                            <input type="text" id="message-input" placeholder="Type your message..." autocomplete="off" />
+                            <button id="send-button" class="btn">Send</button>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Username Input Overlay -->
-    <div
-      id="username-overlay"
-      class="fixed inset-x-0 top-8 bottom-8 bg-white z-50 flex items-center justify-center"
-    >
-      <div class="bg-white p-8 rounded-xl shadow-2xl w-96 text-center">
-        <h2 class="text-2xl font-bold mb-4 text-gray-800">
-          Choose Your Username
-        </h2>
-        <input
-          type="text"
-          id="username-input"
-          placeholder="Enter your username"
-          class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
-        />
-        <button
-          id="username-submit"
-          class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300"
-        >
-          Join others
-        </button>
-      </div>
-    </div>
-
-    <!-- Room Selection -->
-    <div id="room-selection" class="container mx-auto px-4 py-8 hidden">
-      <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">
-        Choose or create a chat room!
-      </h1>
-      <div id="room-list" class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-        <!-- Dynamic rooms added here -->
-      </div>
-
-      <div class="flex space-x-2">
-        <input
-          type="text"
-          id="new-room-name"
-          placeholder="Create a new room..."
-          class="flex-grow px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button
-          id="create-room"
-          class="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300"
-        >
-          Create Room
-        </button>
-      </div>
-    </div>
-
-    <!-- User List -->
-    <div id="userListContainer" class="container mx-auto px-4 py-4 hidden">
-      <h3 class="text-xl font-bold text-gray-800 mb-4">Current Users</h3>
-      <ul id="userList" class="space-y-2">
-        <!-- Users added here -->
-      </ul>
-    </div>
-
-    <!-- Main Chat Container -->
-    <div
-      id="container"
-      class="container mx-auto flex-grow flex flex-col px-4 py-8 hidden"
-    >
-      <div class="flex justify-between items-center mb-4">
-        <button
-          id="back-button"
-          class="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-300"
-        >
-          Back to Rooms
-        </button>
-        <h1
-          id="room-name"
-          class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300"
-        >
-          Chat Application
-        </h1>
-      </div>
-
-      <div
-        id="chat-box"
-        class="flex-grow bg-white border rounded-lg p-4 mb-4 space-y-3 min-h-[500px] max-h-[500px] flex flex-col overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-blue-100 [&::-webkit-scrollbar-thumb]:bg-blue-500 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-blue-600"
-      >
-        <!-- Messages added here -->
-      </div>
-
-      <div class="flex space-x-2">
-        <input
-          type="text"
-          id="message-input"
-          placeholder="Type your message..."
-          class="flex-grow px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button
-          id="send-button"
-          class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300"
-        >
-          Send
-        </button>
-      </div>
-    </div>
-
-    <!-- Bottom Bar -->
-    <div class="bg-blue-600 h-8 mt-auto"></div>
     <script src="functions.js"></script>
-  </body>
+</body>
 </html>
