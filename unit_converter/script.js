@@ -1,6 +1,9 @@
 class UnitConverter {
     constructor() {
         this.currentCategory = 'length';
+        this.apiBase = 'https://open.er-api.com/v6/latest/USD'; // Free API, no key required
+        this.currencyRates = {};
+        this.currencyDate = '';
 
         this.units = {
             length: {
@@ -44,7 +47,9 @@ class UnitConverter {
                 week: { name: 'Week', factor: 1 / 604800 },
                 month: { name: 'Month (30 days)', factor: 1 / 2592000 },
                 year: { name: 'Year (365 days)', factor: 1 / 31536000 }
-            }
+            },
+            // Currency will be populated dynamically from the API
+            currency: {} 
         };
 
         this.quickReferences = {
@@ -77,6 +82,11 @@ class UnitConverter {
                 '1 day = 24 hours',
                 '1 week = 7 days',
                 '1 year = 365 days'
+            ],
+            currency: [
+                'Rates are live & updated daily',
+                'Source: open.er-api.com',
+                'Base Currency: USD'
             ]
         };
 
@@ -115,15 +125,65 @@ class UnitConverter {
         });
     }
 
-    loadCategory(category) {
+    async fetchCurrencyRates() {
+        const formulaDisplay = document.getElementById('formula');
+        formulaDisplay.textContent = 'Fetching live exchange rates...';
+        
+        try {
+            const response = await fetch(this.apiBase);
+            const data = await response.json();
+            
+            if (data && data.rates) {
+                // Populate the currency units object
+                // The API gives rates relative to USD (1 USD = x Currency)
+                // This matches our 'factor' logic perfectly
+                this.units.currency = {};
+                Object.entries(data.rates).forEach(([code, rate]) => {
+                    this.units.currency[code] = { 
+                        name: code, 
+                        factor: rate 
+                    };
+                });
+                
+                // Save update time for reference
+                this.currencyDate = data.time_last_update_utc.substring(0, 16);
+                
+                // Add the date to quick references dynamically
+                const dateRef = `Last Updated: ${this.currencyDate}`;
+                if (!this.quickReferences.currency.includes(dateRef)) {
+                    this.quickReferences.currency.push(dateRef);
+                }
+                
+                return true;
+            }
+        } catch (error) {
+            console.error('Error fetching currency rates:', error);
+            formulaDisplay.textContent = 'Error: Could not load exchange rates.';
+            return false;
+        }
+        return false;
+    }
+
+    async loadCategory(category) {
         const fromSelect = document.getElementById('from-unit');
         const toSelect = document.getElementById('to-unit');
-        const units = this.units[category];
-
+        
+        // Clear existing options
         fromSelect.innerHTML = '';
         toSelect.innerHTML = '';
+        document.getElementById('from-value').value = '';
+        document.getElementById('to-value').value = '';
+        document.getElementById('formula').textContent = 'Enter a value to convert';
 
+        // Check if we need to fetch currency data
+        if (category === 'currency' && Object.keys(this.units.currency).length === 0) {
+            const success = await this.fetchCurrencyRates();
+            if (!success) return; // Stop if fetch failed
+        }
+
+        const units = this.units[category];
         const unitKeys = Object.keys(units);
+
         unitKeys.forEach(key => {
             const option1 = document.createElement('option');
             option1.value = key;
@@ -136,13 +196,16 @@ class UnitConverter {
             toSelect.appendChild(option2);
         });
 
+        // Set default selection (second item if available)
         if (unitKeys.length > 1) {
             toSelect.selectedIndex = 1;
         }
 
-        document.getElementById('from-value').value = '';
-        document.getElementById('to-value').value = '';
-        document.getElementById('formula').textContent = 'Enter a value to convert';
+        // Special defaults for currency (USD -> EUR if available)
+        if (category === 'currency') {
+            if (units['USD']) fromSelect.value = 'USD';
+            if (units['EUR']) toSelect.value = 'EUR';
+        }
 
         this.loadQuickReference(category);
     }
@@ -151,15 +214,22 @@ class UnitConverter {
         const refContainer = document.getElementById('quick-reference');
         const references = this.quickReferences[category];
 
-        refContainer.innerHTML = references.map(ref =>
-            `<div class="ref-item">${ref}</div>`
-        ).join('');
+        if (references) {
+            refContainer.innerHTML = references.map(ref =>
+                `<div class="ref-item">${ref}</div>`
+            ).join('');
+        } else {
+            refContainer.innerHTML = '';
+        }
     }
 
     convert() {
         const fromValue = parseFloat(document.getElementById('from-value').value);
         const fromUnit = document.getElementById('from-unit').value;
         const toUnit = document.getElementById('to-unit').value;
+
+        // Safety check if units aren't loaded yet
+        if (!fromUnit || !toUnit || !this.units[this.currentCategory][fromUnit]) return;
 
         if (isNaN(fromValue)) {
             document.getElementById('to-value').value = '';
@@ -176,14 +246,20 @@ class UnitConverter {
         } else {
             const fromFactor = this.units[this.currentCategory][fromUnit].factor;
             const toFactor = this.units[this.currentCategory][toUnit].factor;
+            
+            // Standard Conversion: Value * (TargetFactor / SourceFactor)
             result = fromValue * (toFactor / fromFactor);
 
             const fromName = this.units[this.currentCategory][fromUnit].name;
             const toName = this.units[this.currentCategory][toUnit].name;
-            formula = `${fromValue} ${fromName} = ${result.toFixed(6)} ${toName}`;
+            
+            // Format result for display (currency needs 2-4 decimals, others 6)
+            const decimals = this.currentCategory === 'currency' ? 2 : 6;
+            
+            formula = `${fromValue} ${fromName} = ${result.toFixed(decimals)} ${toName}`;
+            document.getElementById('to-value').value = result.toFixed(decimals);
         }
 
-        document.getElementById('to-value').value = result.toFixed(6);
         document.getElementById('formula').textContent = formula;
     }
 

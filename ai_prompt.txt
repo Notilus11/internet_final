@@ -11,3 +11,5 @@ Okay, the chat works now! However, once I enter the chat room, I'm stuck there. 
 The chat is functioning, but when I look at the browser console, I see a bunch of red errors about chrome-extension://... and a warning about Tailwind CSS not being for production. Did you break something in the code, or can I ignore these? If they are safe to ignore, please explain why.
 
 Please make the chat room look similar to the theme of the rest of the website!
+
+We want to extend the unit converter in this project to also be a currency converter. To get the live currency rates use a api
