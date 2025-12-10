@@ -3,7 +3,7 @@
 ## Overview
 This document outlines how AI (GitHub Copilot) was utilized throughout the development of the Combined Projects Portal. The AI assisted in code generation, architecture design, bug fixes, and feature implementation.
 
-**AI Model Used**: Claude Haiku 4.5  
+**AI Model Used**: Claude Haiku 4.5 & Gemini 3  
 **Period**: November - December 2025  
 **Total Interactions**: 9+ prompts across project phases
 
