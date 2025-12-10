@@ -1,55 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minesweeper</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <header>
-            <h1>💣 Minesweeper</h1>
-            <a href="../main_index.html" class="back-btn">← Back to Menu</a>
-        </header>
+      <header>
+        <h1>Minesweeper</h1>
+        <a href="../main_index.html" class="back-btn">← Back to Menu</a>
+      </header>
 
-        <div class="game-controls">
-            <div class="difficulty-buttons">
-                <button class="diff-btn active" data-difficulty="easy">Easy (8x8)</button>
-                <button class="diff-btn" data-difficulty="medium">Medium (12x12)</button>
-                <button class="diff-btn" data-difficulty="hard">Hard (16x16)</button>
-            </div>
-
-            <div class="game-info">
-                <div class="info-item">
-                    <span class="label">Mines:</span>
-                    <span id="mine-count">10</span>
-                </div>
-                <div class="info-item">
-                    <span class="label">Time:</span>
-                    <span id="timer">0</span>s
-                </div>
-                <div class="info-item">
-                    <span class="label">Flags:</span>
-                    <span id="flag-count">0</span>
-                </div>
-            </div>
-
-            <button id="reset-btn" class="reset-btn">New Game 🎮</button>
+      <div class="game-controls">
+        <div class="difficulty-buttons">
+          <button class="diff-btn active" data-difficulty="easy">
+            Easy (8x8)
+          </button>
+          <button class="diff-btn" data-difficulty="medium">
+            Medium (12x12)
+          </button>
+          <button class="diff-btn" data-difficulty="hard">Hard (16x16)</button>
         </div>
 
-        <div id="game-board" class="game-board"></div>
-
-        <div id="game-over-modal" class="modal">
-            <div class="modal-content">
-                <h2 id="modal-title"></h2>
-                <p id="modal-message"></p>
-                <button id="modal-close" class="btn">Play Again</button>
-            </div>
+        <div class="game-info">
+          <div class="info-item">
+            <span class="label">Mines:</span>
+            <span id="mine-count">10</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Time:</span>
+            <span id="timer">0</span>s
+          </div>
+          <div class="info-item">
+            <span class="label">Flags:</span>
+            <span id="flag-count">0</span>
+          </div>
         </div>
+
+        <button id="reset-btn" class="reset-btn">New Game 🎮</button>
+      </div>
+
+      <div id="game-board" class="game-board"></div>
+
+      <div id="game-over-modal" class="modal">
+        <div class="modal-content">
+          <h2 id="modal-title"></h2>
+          <p id="modal-message"></p>
+          <button id="modal-close" class="btn">Play Again</button>
+        </div>
+      </div>
     </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+
 
     <script src="script.js"></script>
 </body>
