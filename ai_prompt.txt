@@ -49,4 +49,10 @@ Prompt: "Did you break something in the code, or can I ignore these? [errors]"
 Prompt: "If they are safe to ignore, please explain why."
 Prompt: "Please make the chat room look similar to the theme of the rest of the website!"
 
+We want the page to have a gamer esthetic, with some typography like arcade gamer, background color black, and base colors black and white; making the accent color #ff63d8 for the pink, #21ef80 for the green and #8488f4 for the purple
+
+i want to apply  the typography Jersey10-Regular.woff2 to the main title of the main index
+
+add this image replacing the bomb emoji with it's same size and pressets https://ik.imagekit.io/ocodhookk/Mesa%20de%20trabajo%201chat.png
+
 
