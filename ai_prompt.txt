@@ -13,3 +13,40 @@ The chat is functioning, but when I look at the browser console, I see a bunch o
 Please make the chat room look similar to the theme of the rest of the website!
 
 We want to extend the unit converter in this project to also be a currency converter. To get the live currency rates use a api
+
+
+AI-Assisted Development Workflow
+1. Creation
+Initial generation of core features and code.
+Prompt: "I want to make a website that is a menu to different little projects, all in html/css/js, first i'd like that you make the menu, a minesweeper game and a unit converter, accessible from said menu. could you get started on that?"
+2. Expansion
+Adding features, scaling the architecture and adding complexity.
+Prompt: “I have a project that currently consists of a Main Menu, a Minesweeper game, and a Unit Converter. I want to add a third project to this: a Real-Time Chat Room using WebSockets. Can you generate the HTML, CSS, and JavaScript for a basic chat interface, and provide the Node.js code for a server.js that can handle the WebSocket connections?”
+Prompt: "Please move all the chat-related files (index.html, style.css, functions.js) into their own folder named chat/."
+Prompt: "Then, update the server.js so it knows how to serve these files from that specific folder instead of the root."
+Prompt: "Update the server.js to log a timestamp to the console every time a user connects or disconnects from the chat room."
+
+3. Organization
+Identifying structural errors and misconfigurations.
+Prompt: "I tried running the server with the files in the chat/ folder, but I'm getting this error: [error code]”
+Prompt: "When I open the chat page, the console gives me a GET http://localhost:8081/chat/functions.js 404 (Not Found) error."
+
+Prompt: "It seems server.js is looking for the files in the wrong place. I can’t find the error though can you explain it to me so I can avoid it in the future?"
+
+4. Repair
+Fixing bugs, broken paths, and implementing logic corrections.
+Prompt: "Okay, the chat works now! However, once I enter the chat room, I'm stuck there. I can’t get back to the chat room selection!"
+Prompt: "I need a way to return to my main project menu. From the chat room selection!"
+Prompt: "Can you update the chat's index.html to include a 'Back to Menu' link or button in the top navigation bar that points to ../main_index.html?"
+Prompt: "We want to extend the unit converter in this project to also be a currency converter."
+Prompt: "To have real-time data of the currency exchange rates use a api"
+
+5. Refinement
+Polishing the UI, handling warnings, and styling.
+Prompt: "The code you provided works, but I want to keep my project clean."
+Prompt: "The chat is functioning, but when I look at the browser console, I see a bunch of red errors about chrome-extension://... and a warning about Tailwind CSS not being for production."
+Prompt: "Did you break something in the code, or can I ignore these? [errors]"
+Prompt: "If they are safe to ignore, please explain why."
+Prompt: "Please make the chat room look similar to the theme of the rest of the website!"
+
+

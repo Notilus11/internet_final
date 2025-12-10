@@ -96,6 +96,9 @@ function saveData() {
 const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
+    // Log connection with timestamp
+    console.log(`[${new Date().toISOString()}] Client connected`);
+
     ws.id = Date.now();
     ws.room = null;
     clients.push(ws);
@@ -141,6 +144,9 @@ wss.on('connection', (ws) => {
     });
 
     ws.on('close', () => {
+        // Log disconnection with timestamp
+        console.log(`[${new Date().toISOString()}] Client disconnected`);
+
         clients = clients.filter(client => client !== ws);
         if (ws.room) {
             broadcastUserList();
