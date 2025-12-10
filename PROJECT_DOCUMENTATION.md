@@ -330,12 +330,6 @@ The server will start on `http://localhost:8081`
 - No difficulty increase or progressive gameplay
 - No leaderboard or scoring system
 
-### General
-- No user accounts or login system
-- Chat history only persists in JSON (no database)
-- No backup mechanism for chat data
-- All data is in-memory + JSON backup
-
 ---
 
 ## 9. Future Enhancement Ideas
