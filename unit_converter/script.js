@@ -254,7 +254,7 @@ class UnitConverter {
             const toName = this.units[this.currentCategory][toUnit].name;
             
             // Format result for display (currency needs 2-4 decimals, others 6)
-            const decimals = this.currentCategory === 'currency' ? 2 : 6;
+            const decimals = this.currentCategory === 'currency' ? 4 : 6;
             
             formula = `${fromValue} ${fromName} = ${result.toFixed(decimals)} ${toName}`;
             document.getElementById('to-value').value = result.toFixed(decimals);
