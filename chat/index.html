@@ -1,87 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chat Room</title>
     <!-- Link to the new custom CSS -->
     <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-
+  </head>
+  <body>
     <!-- Header similar to Minesweeper/Unit Converter -->
     <header>
-        <a href="../main_index.html" class="back-btn">← Back to Menu</a>
-        <h1>💬 Global Chat</h1>
-        <div class="header-spacer"></div> <!-- Spacer to keep title centered -->
+      <a href="../main_index.html" class="back-btn">← Back to Menu</a>
+      <h1>Global Chat</h1>
+      <div class="header-spacer"></div>
+      <!-- Spacer to keep title centered -->
     </header>
 
     <div class="container">
-        
-        <!-- Username Input Overlay -->
-        <div id="username-overlay">
-            <div class="modal-content">
-                <h2>Welcome!</h2>
-                <p style="margin-bottom: 15px; color: #666;">Please choose a username to join.</p>
-                <div class="input-group" style="flex-direction: column;">
-                    <input type="text" id="username-input" placeholder="Username" maxlength="15" />
-                    <button id="username-submit" class="btn">Join Chat</button>
-                </div>
-            </div>
+      <!-- Username Input Overlay -->
+      <div id="username-overlay">
+        <div class="modal-content">
+          <h2>Welcome!</h2>
+          <p style="margin-bottom: 15px; color: #666">
+            Please choose a username to join.
+          </p>
+          <div class="input-group" style="flex-direction: column">
+            <input
+              type="text"
+              id="username-input"
+              placeholder="Username"
+              maxlength="15"
+            />
+            <button id="username-submit" class="btn">Join Chat</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Room Selection View -->
+      <div id="room-selection" class="card">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px">
+          Join a Room
+        </h2>
+
+        <div id="room-list">
+          <!-- Dynamic rooms added here by JS -->
         </div>
 
-        <!-- Room Selection View -->
-        <div id="room-selection" class="card">
-            <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Join a Room</h2>
-            
-            <div id="room-list">
-                <!-- Dynamic rooms added here by JS -->
-            </div>
-
-            <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
-                <h3 style="margin-bottom: 10px; font-size: 1.1rem; color: #555;">Or Create New Room</h3>
-                <div class="input-group">
-                    <input type="text" id="new-room-name" placeholder="Enter room name..." />
-                    <button id="create-room" class="btn">Create & Join</button>
-                </div>
-            </div>
+        <div
+          style="
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+          "
+        >
+          <h3 style="margin-bottom: 10px; font-size: 1.1rem; color: #555">
+            Or Create New Room
+          </h3>
+          <div class="input-group">
+            <input
+              type="text"
+              id="new-room-name"
+              placeholder="Enter room name..."
+            />
+            <button id="create-room" class="btn">Create & Join</button>
+          </div>
         </div>
+      </div>
 
-        <!-- Active Chat View -->
-        <div id="container" class="card hidden">
-            <div class="chat-layout">
-                
-                <!-- Sidebar: User List -->
-                <aside class="sidebar" id="userListContainer">
-                    <h3>Active Users</h3>
-                    <ul id="userList">
-                        <!-- Users added here by JS -->
-                    </ul>
-                </aside>
+      <!-- Active Chat View -->
+      <div id="container" class="card hidden">
+        <div class="chat-layout">
+          <!-- Sidebar: User List -->
+          <aside class="sidebar" id="userListContainer">
+            <h3>Active Users</h3>
+            <ul id="userList">
+              <!-- Users added here by JS -->
+            </ul>
+          </aside>
 
-                <!-- Main Chat Area -->
-                <main class="chat-main">
-                    <div class="chat-header">
-                        <span id="room-name" class="room-badge">Room: Lobby</span>
-                        <button id="back-button" class="btn btn-secondary" style="padding: 8px 15px; font-size: 0.9rem;">Leave Room</button>
-                    </div>
-
-                    <div id="chat-box">
-                        <!-- Messages added here by JS -->
-                    </div>
-
-                    <div class="chat-input-area">
-                        <div class="input-group">
-                            <input type="text" id="message-input" placeholder="Type your message..." autocomplete="off" />
-                            <button id="send-button" class="btn">Send</button>
-                        </div>
-                    </div>
-                </main>
+          <!-- Main Chat Area -->
+          <main class="chat-main">
+            <div class="chat-header">
+              <span id="room-name" class="room-badge">Room: Lobby</span>
+              <button
+                id="back-button"
+                class="btn btn-secondary"
+                style="padding: 8px 15px; font-size: 0.9rem"
+              >
+                Leave Room
+              </button>
             </div>
-        </div>
 
+            <div id="chat-box">
+              <!-- Messages added here by JS -->
+            </div>
+
+            <div class="chat-input-area">
+              <div class="input-group">
+                <input
+                  type="text"
+                  id="message-input"
+                  placeholder="Type your message..."
+                  autocomplete="off"
+                />
+                <button id="send-button" class="btn">Send</button>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
     </div>
 
     <script src="functions.js"></script>
-</body>
+  </body>
 </html>
